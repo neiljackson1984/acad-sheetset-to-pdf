@@ -33,8 +33,10 @@ using System.Runtime.InteropServices;
 
 namespace acad_sheetset_to_pdf
 {
+
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             //*****parse the command-line arguments*****
@@ -46,20 +48,20 @@ namespace acad_sheetset_to_pdf
             //*****read the sheetset file and construct a dsd file accordingly*****
 
             //Console.WriteLine(Microsoft.VisualBasic.Information.TypeName(new AcSmSheetSetMgr()));
-            Console.WriteLine(Microsoft.VisualBasic.Information.TypeName(Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true)));
+            //Console.WriteLine(Microsoft.VisualBasic.Information.TypeName(Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true)));
 
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
 
-            AcSmSheetSetMgr sheetSetMgr = new AcSmSheetSetMgr();
-            //IAcSmSheetSetMgr sheetSetMgr;
-
+            //IAcSmSheetSetMgr sheetSetMgr; = new AcSmSheetSetMgrClass();
+            IAcSmSheetSetMgr sheetSetMgr;
+            //sheetSetMgr = (IAcSmSheetSetMgr) new AcSmSheetSetMgr();
             //dynamic sheetSetMgr;
 
             ////Console.WriteLine(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"));
             ////Console.WriteLine(Type.GetTypeFromProgID("AutoCAD.Application.23"));
+            Type t = Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23");
+            sheetSetMgr =  (IAcSmSheetSetMgr) Activator.CreateInstance(t, true);
+            //dynamic sheetSetMgr = (dynamic)Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true);
 
-            //sheetSetMgr = (dynamic)Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true);
 
             ////try
             //{
@@ -76,7 +78,7 @@ namespace acad_sheetset_to_pdf
             //}
 
 
-            AcSmDatabase sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, false);
+            IAcSmDatabase sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, false);
             if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary tolock the sheetset, because I am only reading fromit, not writing to it.
             AcSmSheetSet sheetset = sheetdb.GetSheetSet();
 
