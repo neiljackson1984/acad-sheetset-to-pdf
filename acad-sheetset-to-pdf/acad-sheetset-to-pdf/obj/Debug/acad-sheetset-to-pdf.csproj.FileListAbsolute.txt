@@ -7,3 +7,7 @@ U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.csproj.ResolveComReference.cache
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.exe
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.pdb
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\acui23res.dll
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\adui23res.dll
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\anavRes.dll
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.csproj.CoreCompileInputs.cache

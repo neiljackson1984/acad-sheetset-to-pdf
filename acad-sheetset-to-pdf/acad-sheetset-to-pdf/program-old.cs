@@ -36,8 +36,7 @@ namespace acad_sheetset_to_pdf
 
     class Program
     {
-        //The [STAThread] statement below was the answer to make the instatntiation of the COM objects stop complaining that the interface could not be found.
-        [STAThread] 
+        [STAThread]
         static void Main(string[] args)
         {
             //*****parse the command-line arguments*****
@@ -47,17 +46,41 @@ namespace acad_sheetset_to_pdf
             //TO DO: parse and verify the real command-line arguments, compose a help message.
 
             //*****read the sheetset file and construct a dsd file accordingly*****
-            
 
+            //Console.WriteLine(Microsoft.VisualBasic.Information.TypeName(new AcSmSheetSetMgr()));
+            //Console.WriteLine(Microsoft.VisualBasic.Information.TypeName(Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true)));
+
+
+            //IAcSmSheetSetMgr sheetSetMgr; = new AcSmSheetSetMgrClass();
             IAcSmSheetSetMgr sheetSetMgr;
-            IAcSmDatabase sheetdb;
-            sheetSetMgr = new AcSmSheetSetMgr();
-            sheetdb = new AcSmDatabase();
+            //sheetSetMgr = (IAcSmSheetSetMgr) new AcSmSheetSetMgr();
+            //dynamic sheetSetMgr;
 
-            Console.WriteLine("attempting to open " + nameOfSheetsetFile);
-            sheetdb = sheetSetMgr.OpenDatabase("C:\\work\\ec-18-013_les_schwab_397\\main_sheet_set.dst", true);
+            ////Console.WriteLine(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"));
+            ////Console.WriteLine(Type.GetTypeFromProgID("AutoCAD.Application.23"));
+            Type t = Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23");
+            sheetSetMgr =  (IAcSmSheetSetMgr) Activator.CreateInstance(t, true);
+            //dynamic sheetSetMgr = (dynamic)Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true);
+
+
+            ////try
+            //{
+            //    // Create a new instance of AcSmSheetSetMgr
+            //    sheetSetMgr = (dynamic)Activator.CreateInstance(Type.GetTypeFromProgID("AcSmComponents.AcSmSheetSetMgr.23"), true);
+            //}
+            //catch
+            //{
+            //    // If an instance of AcSmSheetSetMgr is not created then message and exit
+            //    Console.WriteLine("Instance of 'AcSmComponents.AcSmSheetSetMgr.23' could not be created.");
+            //    Console.WriteLine("Press any key to exit.");
+            //    Console.ReadKey();
+            //    return;
+            //}
+
+
+            IAcSmDatabase sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, false);
             if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary tolock the sheetset, because I am only reading fromit, not writing to it.
-            IAcSmSheetSet sheetset = sheetdb.GetSheetSet();
+            AcSmSheetSet sheetset = sheetdb.GetSheetSet();
 
             IAcSmEnumComponent myAcSmEnumComponent = sheetset.GetSheetEnumerator();
             IAcSmComponent thisAcSmComponent;
@@ -72,6 +95,8 @@ namespace acad_sheetset_to_pdf
             // Keep the console window open in debug mode.
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
+
+
         }
     }
 }
