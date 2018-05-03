@@ -40,6 +40,9 @@ namespace acad_sheetset_to_pdf
         [STAThread] 
         static void Main(string[] args)
         {
+            String nameOfDwgFileContainingThePageSetup;
+            String nameOfThePageSetup;
+            
             //*****parse the command-line arguments*****
             //for now, I will simply hard code these values.
             String nameOfSheetsetFile = "C:\\work\\ec-18-013_les_schwab_397\\main_sheet_set.dst";
@@ -47,29 +50,49 @@ namespace acad_sheetset_to_pdf
             //TO DO: parse and verify the real command-line arguments, compose a help message.
 
             //*****read the sheetset file and construct a dsd file accordingly*****
-            
-
             IAcSmSheetSetMgr sheetSetMgr;
             IAcSmDatabase sheetdb;
+            IAcSmSheetSet sheetSet;
+
             sheetSetMgr = new AcSmSheetSetMgr();
-            sheetdb = new AcSmDatabase();
-
+ 
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);
-            sheetdb = sheetSetMgr.OpenDatabase("C:\\work\\ec-18-013_les_schwab_397\\main_sheet_set.dst", true);
-            if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary tolock the sheetset, because I am only reading fromit, not writing to it.
-            IAcSmSheetSet sheetset = sheetdb.GetSheetSet();
+            sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, bFailIfAlreadyOpen: false);
+            if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
+            sheetSet = sheetdb.GetSheetSet();
+            if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }
+            //read the page setup override information from the sheet set.
 
-            IAcSmEnumComponent myAcSmEnumComponent = sheetset.GetSheetEnumerator();
+            //IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
+            //myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
+
+            nameOfDwgFileContainingThePageSetup = sheetSet.GetAltPageSetups().ResolveFileName();
+
+            //nameOfThePageSetup = sheetSet.GetDefAltPageSetup().GetName();
+            // the above is not working because sheetSet.GetDefAltPageSetup() returns null.
+            // I suspect that sheetSet.GetDefAltPageSetup() only returns something when
+            // this code is being run within the Autocad process.
+            //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
+            nameOfThePageSetup = "ahoy";
+
+            Console.WriteLine("nameOfDwgFileContainingThePageSetup: " + nameOfDwgFileContainingThePageSetup);
+            Console.WriteLine("nameOfThePageSetup: " + nameOfThePageSetup);
+            
+
+            IAcSmEnumComponent myAcSmEnumComponent = sheetSet.GetSheetEnumerator();
             IAcSmComponent thisAcSmComponent;
-
+            IAcSmSheet thisSheet;
             while ((thisAcSmComponent = myAcSmEnumComponent.Next()) != null)
             {
                 Console.WriteLine(thisAcSmComponent.GetObjectId().GetPersistObject().GetTypeName());
+                thisSheet = (IAcSmSheet) thisAcSmComponent.GetObjectId().GetPersistObject();
+                Console.WriteLine("thisSheet.GetName(): " + thisSheet.GetName());		//                 thisSheet.GetName()
+                Console.WriteLine("thisSheet.GetLayout().GetName(): " + thisSheet.GetLayout().GetName());		//                 thisSheet.GetLayout().GetName()
             }
 
             if (sheetdb.GetLockStatus() != 0){ sheetdb.UnlockDb(sheetdb);}
 
-            // Keep the console window open in debug mode.
+            // Keep the console window open
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }
