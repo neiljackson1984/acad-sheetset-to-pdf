@@ -42,11 +42,14 @@ namespace acad_sheetset_to_pdf
         {
             String nameOfDwgFileContainingThePageSetup;
             String nameOfThePageSetup;
-            
+            IAcadApplication acad;
+            acad = new AcadApplication();
+
             //*****parse the command-line arguments*****
             //for now, I will simply hard code these values.
             String nameOfSheetsetFile = "C:\\work\\ec-18-013_les_schwab_397\\main_sheet_set.dst";
             String nameOfPdfOutputFile = "C:\\work\\ec-18-013_les_schwab_397\\out.pdf";
+            String nameOfTheTemporaryDsdFile = System.IO.Path.GetTempFileName() + ".dsd";
             //TO DO: parse and verify the real command-line arguments, compose a help message.
 
             //*****read the sheetset file and construct a dsd file accordingly*****
@@ -62,22 +65,43 @@ namespace acad_sheetset_to_pdf
             sheetSet = sheetdb.GetSheetSet();
             if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }
             //read the page setup override information from the sheet set.
-
-            //IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
-            //myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
-
             nameOfDwgFileContainingThePageSetup = sheetSet.GetAltPageSetups().ResolveFileName();
 
-            //nameOfThePageSetup = sheetSet.GetDefAltPageSetup().GetName();
+
+            IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
+            myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
+            //nameOfThePageSetup = myNamedAcDbObjectReference.GetName();
             // the above is not working because sheetSet.GetDefAltPageSetup() returns null.
             // I suspect that sheetSet.GetDefAltPageSetup() only returns something when
             // this code is being run within the Autocad process.
             //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
-            nameOfThePageSetup = "ahoy";
+            acad.Visible = true;
+            IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
+            while (acad.GetAcadState().IsQuiescent == false)
+            {
+                Console.WriteLine("waiting for autoCAD to become quiescent.");
+            }
 
+            Console.WriteLine("documentContainingThePageSetup.Name: " + documentContainingThePageSetup.Name);		//             documentContainingThePageSetup.Name
+
+            Console.WriteLine("documentContainingThePageSetup.PlotConfigurations.Count: " + documentContainingThePageSetup.PlotConfigurations.Count);       //             documentContainingThePageSetup.PlotConfigurations.Count
+
+
+            foreach ( IAcadPlotConfiguration thisPlotConfiguration in documentContainingThePageSetup.PlotConfigurations)
+            {
+                Console.WriteLine("found a PlotConfiguration: " + thisPlotConfiguration.Name);
+            }
+            nameOfThePageSetup = documentContainingThePageSetup.PlotConfigurations.Item(0).Name;
+            documentContainingThePageSetup.Close(SaveChanges: false);
             Console.WriteLine("nameOfDwgFileContainingThePageSetup: " + nameOfDwgFileContainingThePageSetup);
             Console.WriteLine("nameOfThePageSetup: " + nameOfThePageSetup);
-            
+
+            string dsdContent = "";
+            dsdContent +=
+                "[DWF6Version]" + "\r\n" +
+                "Ver=1" + "\r\n" +
+                "[DWF6MinorVersion]" + "\r\n" +
+                "MinorVer=1" + "\r\n";
 
             IAcSmEnumComponent myAcSmEnumComponent = sheetSet.GetSheetEnumerator();
             IAcSmComponent thisAcSmComponent;
@@ -88,13 +112,81 @@ namespace acad_sheetset_to_pdf
                 thisSheet = (IAcSmSheet) thisAcSmComponent.GetObjectId().GetPersistObject();
                 Console.WriteLine("thisSheet.GetName(): " + thisSheet.GetName());		//                 thisSheet.GetName()
                 Console.WriteLine("thisSheet.GetLayout().GetName(): " + thisSheet.GetLayout().GetName());		//                 thisSheet.GetLayout().GetName()
+                Console.WriteLine("thisSheet.GetLayout().ResolveFileName(): " + thisSheet.GetLayout().ResolveFileName());       //                 thisSheet.GetLayout().ResolveFileName()
+                Console.WriteLine("thisSheet.GetLayout().GetFileName(): " + thisSheet.GetLayout().GetFileName());		//                 thisSheet.GetLayout().GetFileName()
+
+                dsdContent +=
+                    "[DWF6Sheet:" + thisSheet.GetName() + "]" + "\r\n" +
+                    "DWG=" + thisSheet.GetLayout().ResolveFileName() + "\r\n" +
+                    "Layout=" + thisSheet.GetLayout().GetName() + "\r\n" +
+                    "Setup=" + nameOfThePageSetup + "|" + nameOfDwgFileContainingThePageSetup + "\r\n" +
+                    "OriginalSheetPath=" + thisSheet.GetLayout().ResolveFileName() + "\r\n" +
+                    "Has Plot Port=" + "0" + "\r\n" + 
+                    "Has3DDWF=" + "0" + "\r\n";
             }
 
-            if (sheetdb.GetLockStatus() != 0){ sheetdb.UnlockDb(sheetdb);}
+            dsdContent +=
+                "[Target]" + "\r\n" +
+                "Type=6" + "\r\n" +
+                "DWF=" + nameOfPdfOutputFile + "\r\n" +
+                "OUT=" + System.IO.Path.GetDirectoryName(nameOfPdfOutputFile) /*+ System.IO.Path.DirectorySeparatorChar*/ + "\r\n" + 
+                "PWD=" + "" + "\r\n" +
+                "[PdfOptions]" + "\r\n" +
+                "IncludeHyperlinks=FALSE" + "\r\n" +
+                "CreateBookmarks=FALSE" + "\r\n" +
+                "CaptureFontsInDrawing=TRUE" + "\r\n" +
+                "ConvertTextToGeometry=FALSE" + "\r\n" +
+                "VectorResolution=600" + "\r\n" +
+                "RasterResolution=400" + "\r\n" +
+                "[AutoCAD Block Data]" + "\r\n" +
+                "IncludeBlockInfo=0" + "\r\n" +
+                "BlockTmplFilePath =" + "\r\n" +
+                "[SheetSet Properties]" + "\r\n" +
+                "IsSheetSet=TRUE" + "\r\n" +
+                "IsHomogeneous=FALSE" + "\r\n" +
+                "SheetSet Name=" + sheetSet.GetName() + "\r\n" +
+                "NoOfCopies=1" + "\r\n" +
+                "PlotStampOn=FALSE" + "\r\n" +
+                "ViewFile=FALSE" + "\r\n" +
+                "JobID=0" + "\r\n" +
+                "SelectionSetName=" + "\r\n" +
+                "AcadProfile=" + "\r\n" +
+                "CategoryName=" + "\r\n" +
+                "LogFilePath=" + "\r\n" +
+                "IncludeLayer=FALSE" + "\r\n" +
+                "LineMerge=FALSE" + "\r\n" +
+                "CurrentPrecision =" + "\r\n" +
+                "PromptForDwfName=FALSE" + "\r\n" +
+                "PwdProtectPublishedDWF=FALSE" + "\r\n" +
+                "PromptForPwd=FALSE" + "\r\n" +
+                "RepublishingMarkups=FALSE" + "\r\n" +
+                "DSTPath=" + nameOfSheetsetFile + "\r\n" +
+                "PublishSheetSetMetadata=FALSE" + "\r\n" +
+                "PublishSheetMetadata=FALSE" + "\r\n" +
+                "3DDWFOptions=0 0" + "\r\n" + "\r\n" +
+                "";
 
+            System.IO.File.WriteAllText(path: nameOfTheTemporaryDsdFile, contents: dsdContent);
+
+            Console.WriteLine(nameOfTheTemporaryDsdFile);
+ 
+            if (sheetdb.GetLockStatus() != 0){ sheetdb.UnlockDb(sheetdb);}
+            IAcadDocument workingDocument = acad.Documents.Add();
+            while (acad.GetAcadState().IsQuiescent == false)
+            {
+                Console.WriteLine("waiting for autoCAD to become quiescent.");
+            }
+            workingDocument.SetVariable("FILEDIA", 0);
+            workingDocument.SendCommand("-PUBLISH" + "\n" + nameOfTheTemporaryDsdFile + "\n");
+            workingDocument.Close(SaveChanges: false);
+            while (acad.GetAcadState().IsQuiescent == false)
+            {
+                Console.WriteLine("waiting for autoCAD to become quiescent.");
+            }
             // Keep the console window open
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
+            acad.Quit();
         }
     }
 }
