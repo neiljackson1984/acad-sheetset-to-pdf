@@ -30,16 +30,39 @@ using Autodesk.AutoCAD.Interop;
 using Autodesk.AutoCAD.Interop.Common;
 using ACSMCOMPONENTS23Lib;
 using System.Runtime.InteropServices;
+using CommandLine;
 
 namespace acad_sheetset_to_pdf
 {
 
     class Program
     {
-        //The [STAThread] statement below was the answer to make the instatntiation of the COM objects stop complaining that the interface could not be found.
-        [STAThread] 
-        static void Main(string[] args)
+        public class Options
         {
+            [Option(Required = true, HelpText = "The sheetset file to be processed.")]
+            public String SheetSetFile { get; set; }
+
+            [Option(Required = true, HelpText = "The pdf file to be generated.")]
+            public String OutputPdfFile { get; set; }
+        }
+
+
+        //The [STAThread] statement below was the answer to make the instantiation of the COM objects stop complaining that the interface could not be found.
+        [STAThread] 
+        static int Main(string[] args)
+        {
+            Options commandLineOptions = new Options();
+            bool parseErrorsOccured = false;
+
+            CommandLine.Parser.Default.ParseArguments<Options>(args)
+                .WithParsed<Options>(opts => commandLineOptions = opts)
+                .WithNotParsed<Options>((errs) => parseErrorsOccured = true);
+
+            if (parseErrorsOccured) {
+                Console.WriteLine("some parse errors occured. ahoy.");
+                return 1;
+            }
+
             String nameOfDwgFileContainingThePageSetup;
             String nameOfThePageSetup;
             IAcadApplication acad;
@@ -47,8 +70,8 @@ namespace acad_sheetset_to_pdf
 
             //*****parse the command-line arguments*****
             //for now, I will simply hard code these values.
-            String nameOfSheetsetFile = "C:\\work\\ec-18-013_les_schwab_397\\main_sheet_set.dst";
-            String nameOfPdfOutputFile = "C:\\work\\ec-18-013_les_schwab_397\\out.pdf";
+            String nameOfSheetsetFile = commandLineOptions.SheetSetFile;
+            String nameOfPdfOutputFile = commandLineOptions.OutputPdfFile;
             String nameOfTheTemporaryDsdFile = System.IO.Path.GetTempFileName() + ".dsd";
             //TO DO: parse and verify the real command-line arguments, compose a help message.
 
@@ -187,6 +210,8 @@ namespace acad_sheetset_to_pdf
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
             acad.Quit();
+
+            return 0;
         }
     }
 }
