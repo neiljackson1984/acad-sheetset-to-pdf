@@ -63,10 +63,7 @@ namespace acad_sheetset_to_pdf
                 return 1;
             }
 
-            String nameOfDwgFileContainingThePageSetup;
-            String nameOfThePageSetup;
-            IAcadApplication acad;
-            acad = new AcadApplication();
+
 
             //*****parse the command-line arguments*****
             //for now, I will simply hard code these values.
@@ -81,16 +78,22 @@ namespace acad_sheetset_to_pdf
             IAcSmSheetSet sheetSet;
 
             sheetSetMgr = new AcSmSheetSetMgr();
- 
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);
+            Environment.CurrentDirectory = "C:\\Program Files\\Autodesk\\AutoCAD 2019";
             sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, bFailIfAlreadyOpen: false);
+            Console.WriteLine("checkpoint -1");
+            String nameOfDwgFileContainingThePageSetup;
+            String nameOfThePageSetup;
+            IAcadApplication acad;
+            acad = new AcadApplication();
+            
             if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
             sheetSet = sheetdb.GetSheetSet();
             if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }
             //read the page setup override information from the sheet set.
             nameOfDwgFileContainingThePageSetup = sheetSet.GetAltPageSetups().ResolveFileName();
 
-
+            Console.WriteLine("checkpoint 0");
             IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
             myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
             //nameOfThePageSetup = myNamedAcDbObjectReference.GetName();
@@ -98,7 +101,9 @@ namespace acad_sheetset_to_pdf
             // I suspect that sheetSet.GetDefAltPageSetup() only returns something when
             // this code is being run within the Autocad process.
             //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
-            acad.Visible = true;
+            Console.WriteLine("checkpoint 1");
+            acad.Visible = false;
+            Console.WriteLine("checkpoint 2");
             IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
             while (acad.GetAcadState().IsQuiescent == false)
             {

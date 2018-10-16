@@ -17,4 +17,7 @@
     <StartWorkingDirectory>U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\</StartWorkingDirectory>
     <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>C:\Program Files\Autodesk\AutoCAD 2019\</ReferencePath>
+  </PropertyGroup>
 </Project>

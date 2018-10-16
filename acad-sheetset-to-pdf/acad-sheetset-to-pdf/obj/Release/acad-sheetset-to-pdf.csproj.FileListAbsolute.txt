@@ -10,3 +10,5 @@ U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\anavRes.dll
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\acad-sheetset-to-pdf.exe
 U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\acad-sheetset-to-pdf.pdb
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad_sheetset_to_pdf.Properties.Resources.resources
+U:\2018-05-02_acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.GenerateResource.cache
