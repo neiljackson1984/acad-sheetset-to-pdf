@@ -59,7 +59,7 @@ namespace acad_sheetset_to_pdf
                 .WithNotParsed<Options>((errs) => parseErrorsOccured = true);
 
             if (parseErrorsOccured) {
-                Console.WriteLine("some parse errors occured. ahoy.");
+                //Console.WriteLine("some parse errors occured. ahoy.");
                 return 1;
             }
 
@@ -163,7 +163,7 @@ namespace acad_sheetset_to_pdf
                 "RasterResolution=400" + "\r\n" +
                 "[AutoCAD Block Data]" + "\r\n" +
                 "IncludeBlockInfo=0" + "\r\n" +
-                "BlockTmplFilePath =" + "\r\n" +
+                "BlockTmplFilePath=" + "\r\n" +
                 "[SheetSet Properties]" + "\r\n" +
                 "IsSheetSet=TRUE" + "\r\n" +
                 "IsHomogeneous=FALSE" + "\r\n" +
@@ -178,7 +178,7 @@ namespace acad_sheetset_to_pdf
                 "LogFilePath=" + "\r\n" +
                 "IncludeLayer=FALSE" + "\r\n" +
                 "LineMerge=FALSE" + "\r\n" +
-                "CurrentPrecision =" + "\r\n" +
+                "CurrentPrecision=" + "\r\n" +
                 "PromptForDwfName=FALSE" + "\r\n" +
                 "PwdProtectPublishedDWF=FALSE" + "\r\n" +
                 "PromptForPwd=FALSE" + "\r\n" +
@@ -207,8 +207,7 @@ namespace acad_sheetset_to_pdf
                 Console.WriteLine("waiting for autoCAD to become quiescent.");
             }
             // Keep the console window open
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key to exit."); Console.ReadKey();
             acad.Quit();
 
             return 0;
