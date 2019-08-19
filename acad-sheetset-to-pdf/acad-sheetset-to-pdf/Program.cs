@@ -69,7 +69,10 @@ namespace acad_sheetset_to_pdf
             //for now, I will simply hard code these values.
             String nameOfSheetsetFile = commandLineOptions.SheetSetFile;
             String nameOfPdfOutputFile = commandLineOptions.OutputPdfFile;
-            String nameOfTheTemporaryDsdFile = System.IO.Path.GetTempFileName() + ".dsd";
+            String baseName = System.IO.Path.GetTempFileName();
+            String nameOfTheTemporaryDsdFile = baseName + ".dsd";
+            String nameOfTheTemporaryPlotLogFile = baseName + "-plot" +  ".log";
+
             //TO DO: parse and verify the real command-line arguments, compose a help message.
 
             //*****read the sheetset file and construct a dsd file accordingly*****
@@ -180,7 +183,7 @@ namespace acad_sheetset_to_pdf
                 "SelectionSetName=" + "\r\n" +
                 "AcadProfile=" + "\r\n" +
                 "CategoryName=" + "\r\n" +
-                "LogFilePath=" + "\r\n" +
+                "LogFilePath=" + nameOfTheTemporaryPlotLogFile + "\r\n" +
                 "IncludeLayer=FALSE" + "\r\n" +
                 "LineMerge=FALSE" + "\r\n" +
                 "CurrentPrecision=" + "\r\n" +
@@ -206,6 +209,10 @@ namespace acad_sheetset_to_pdf
             }
             workingDocument.SetVariable("FILEDIA", 0);
             workingDocument.SendCommand("-PUBLISH" + "\n" + nameOfTheTemporaryDsdFile + "\n");
+            //make a copy of the log file so that we can inspect the log file even after the clean-up behavior built into AutoCAD's publish routine has deleted the original log file.
+            System.IO.File.Copy(nameOfTheTemporaryPlotLogFile, baseName + "2" + "-plot" + ".log", overwrite: true);
+            //Actually, the above attempt to copy does not seem to result in the expected output log file.  However, it does seem to result in having a csv version of the log file left behind in the temp folder.
+
             workingDocument.Close(SaveChanges: false);
             while (acad.GetAcadState().IsQuiescent == false)
             {
