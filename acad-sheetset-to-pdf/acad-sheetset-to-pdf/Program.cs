@@ -59,6 +59,27 @@ namespace acad_sheetset_to_pdf
         [DllImport("kernel32")]
         public extern static bool FreeLibrary(int hLibModule);
 
+        ///* Returns true when and only when 
+        // * acad.GetAcadState().IsQuiescent 
+        // * can be evaluated without throwing the RPC_E_CALL_REJECTED 'Call was rejected by callee.'
+        // * exception AND when it evaluates to True (we catch and discard the RPC_E_CALL_REJECTED exception).
+        // */
+        public static bool AcadIsAvailableAndQuiescent(IAcadApplication acad)
+        {
+            AcadState currentAcadState;
+            try
+            {
+                currentAcadState = acad.GetAcadState();
+                return currentAcadState.IsQuiescent;
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Console.WriteLine("encountered (and dropped) a COMException while attempting to " +
+                    "determine whether the acad application object is quiescent: " + e.ToString()
+                );
+                return false;
+            }
+        }
 
         //The [STAThread] statement below was the answer to make the instantiation of the COM objects stop complaining that the interface could not be found.
         [STAThread] 
@@ -97,6 +118,7 @@ namespace acad_sheetset_to_pdf
 
             IAcadApplication acad;
             acad = new AcadApplication();
+            //acad.Visible = false;
             String acadProgramDirectory = System.IO.Path.GetDirectoryName(acad.FullName);
             Console.WriteLine("acad.FullName: " + acad.FullName);
             Console.WriteLine("acadProgramDirectory: " + acadProgramDirectory);
@@ -166,13 +188,14 @@ namespace acad_sheetset_to_pdf
             // this code is being run within the Autocad process.
             //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
             Console.WriteLine("checkpoint 1");
+            
             acad.Visible = false;
-            //acad.Visible = true;
             Console.WriteLine("checkpoint 2");
             IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
-            while (acad.GetAcadState().IsQuiescent == false)
+
+            while (!AcadIsAvailableAndQuiescent(acad)  )
             {
-                Console.WriteLine("waiting for autoCAD to become quiescent.");
+                Console.WriteLine("waiting for autoCAD to become available and quiescent.");
             }
 
             Console.WriteLine("documentContainingThePageSetup.Name: " + documentContainingThePageSetup.Name);		//             documentContainingThePageSetup.Name
