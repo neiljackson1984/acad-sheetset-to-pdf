@@ -31,6 +31,7 @@ using Autodesk.AutoCAD.Interop.Common;
 using ACSMCOMPONENTS24Lib;
 using System.Runtime.InteropServices;
 using CommandLine;
+using System.IO;
 
 namespace acad_sheetset_to_pdf
 {
@@ -45,6 +46,11 @@ namespace acad_sheetset_to_pdf
             [Option(Required = true, HelpText = "The pdf file to be generated.")]
             public String OutputPdfFile { get; set; }
         }
+
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetDllDirectory(string lpPathName);
 
 
         //The [STAThread] statement below was the answer to make the instantiation of the COM objects stop complaining that the interface could not be found.
@@ -80,8 +86,25 @@ namespace acad_sheetset_to_pdf
             IAcSmDatabase sheetdb;
             IAcSmSheetSet sheetSet;
 
+            //var dllDirectory = @"C:\Program Files\Autodesk\AutoCAD 2021";
+            //Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + dllDirectory);
+            //SetDllDirectory(dllDirectory);
+
+            //Console.WriteLine("Directory.GetCurrentDirectory(): " + Directory.GetCurrentDirectory());
+            //Directory.SetCurrentDirectory(dllDirectory);
+            //Console.WriteLine("Directory.GetCurrentDirectory(): " + Directory.GetCurrentDirectory());
             //IAcadApplication acad;
             //acad = new AcadApplication();
+            Console.WriteLine("checkpoint -2");
+
+            // it seems that we have to arrange to have the following dlls in the same directory as the acad-sheetset-to-pdf executable in order to succesfully create
+            // an instance of the AcSmSheetSetMgr object, below.
+            // acpal.dll
+            // acui24res.dll
+            // adui24res.dll
+            // anavRes.dll
+
+            //OR run the executable with the initial working directory being the autocad install directory.
 
             sheetSetMgr = new AcSmSheetSetMgr();
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);

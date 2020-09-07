@@ -157,6 +157,15 @@
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
@@ -173,12 +182,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="acdb24.dll" />
+    <Content Include="acpal.dll" />
+    <Content Include="AcSmComponents.dll" />
     <Content Include="acui24res.dll" />
     <Content Include="adui24res.dll" />
     <Content Include="anavRes.dll" />
-    <Content Include="costura64\acui24res.dll" />
-    <Content Include="costura64\adui24res.dll" />
-    <Content Include="costura64\anavRes.dll" />
+    <Content Include="axdb.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
