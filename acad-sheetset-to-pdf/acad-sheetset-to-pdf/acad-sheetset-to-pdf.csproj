@@ -182,15 +182,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="acdb24.dll" />
-    <Content Include="acpal.dll" />
-    <Content Include="AcSmComponents.dll" />
-    <Content Include="acui24res.dll" />
-    <Content Include="adui24res.dll" />
-    <Content Include="anavRes.dll" />
-    <Content Include="axdb.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

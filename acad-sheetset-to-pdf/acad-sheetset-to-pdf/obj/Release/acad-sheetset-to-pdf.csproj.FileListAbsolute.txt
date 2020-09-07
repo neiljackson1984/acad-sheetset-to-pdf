@@ -7,7 +7,6 @@ C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Relea
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\Interop.ACSMCOMPONENTS24Lib.dll
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\Interop.AXDBLib.dll
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.ResolveComReference.cache
-C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.g.resources
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad_sheetset_to_pdf.Properties.Resources.resources
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.GenerateResource.cache
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.CoreCompileInputs.cache
