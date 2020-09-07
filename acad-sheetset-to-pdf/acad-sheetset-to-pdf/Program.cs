@@ -52,6 +52,13 @@ namespace acad_sheetset_to_pdf
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool SetDllDirectory(string lpPathName);
 
+        [DllImport("kernel32", SetLastError = true)]
+        static extern int LoadLibrary(string lpFileName);
+
+
+        [DllImport("kernel32")]
+        public extern static bool FreeLibrary(int hLibModule);
+
 
         //The [STAThread] statement below was the answer to make the instantiation of the COM objects stop complaining that the interface could not be found.
         [STAThread] 
@@ -86,7 +93,7 @@ namespace acad_sheetset_to_pdf
             IAcSmDatabase sheetdb;
             IAcSmSheetSet sheetSet;
 
-            //var dllDirectory = @"C:\Program Files\Autodesk\AutoCAD 2021";
+            var dllDirectory = @"C:\Program Files\Autodesk\AutoCAD 2021";
             //Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + dllDirectory);
             //SetDllDirectory(dllDirectory);
 
@@ -106,9 +113,25 @@ namespace acad_sheetset_to_pdf
 
             //Even if we run executable with the initial working directory being the autocad install directory (which is the primary residence of those dlls), we still get errors about not being able to find entry points.
 
+            int libIdOfAcpal = 0;
+            int libIdOfAcui24res = 0;
+            int libIdOfAdui24res = 0;
+            int libIdOfAnavRes = 0;
+
+            libIdOfAcpal = LoadLibrary(dllDirectory + @"\" + "acpal.dll");
+            //libIdOfAcui24res = LoadLibrary(dllDirectory + @"\" + "acui24res.dll");
+            //libIdOfAdui24res = LoadLibrary(dllDirectory + @"\" + "adui24res.dll");
+            //libIdOfAnavRes = LoadLibrary(dllDirectory + @"\" + "anavRes.dll");
+
+            Console.WriteLine("libIdOfAcpal: " + libIdOfAcpal);
+            Console.WriteLine("libIdOfAcui24res: " + libIdOfAcui24res);
+            Console.WriteLine("libIdOfAdui24res: " + libIdOfAdui24res);
+            Console.WriteLine("libIdOfAnavRes: " + libIdOfAnavRes);
+
+
             sheetSetMgr = new AcSmSheetSetMgr();
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);
-            Environment.CurrentDirectory = "C:\\Program Files\\Autodesk\\AutoCAD 2019";
+            //Environment.CurrentDirectory = @"C:\Program Files\Autodesk\AutoCAD 2019";
             sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, bFailIfAlreadyOpen: false);
             Console.WriteLine("checkpoint -1");
             String nameOfDwgFileContainingThePageSetup;
@@ -260,6 +283,13 @@ namespace acad_sheetset_to_pdf
             // Keep the console window open
             //Console.WriteLine("Press any key to exit."); Console.ReadKey();
             acad.Quit();
+
+            if (libIdOfAcpal > 0) { FreeLibrary(libIdOfAcpal); }
+            if (libIdOfAcui24res > 0) { FreeLibrary(libIdOfAcui24res); }
+            if (libIdOfAdui24res > 0) { FreeLibrary(libIdOfAdui24res); }
+            if (libIdOfAnavRes > 0) { FreeLibrary(libIdOfAnavRes); }
+
+
 
             return 0;
         }

@@ -183,19 +183,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="acdb24.dll" />
-    <Content Include="acpal.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="acpal.dll" />
     <Content Include="AcSmComponents.dll" />
-    <Content Include="acui24res.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="adui24res.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="anavRes.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="acui24res.dll" />
+    <Content Include="adui24res.dll" />
+    <Content Include="anavRes.dll" />
     <Content Include="axdb.dll" />
   </ItemGroup>
   <ItemGroup>

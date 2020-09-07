@@ -14,7 +14,8 @@
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartWorkingDirectory>C:\Program Files\Autodesk\AutoCAD 2021\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
     <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
