@@ -77,6 +77,7 @@ namespace acad_sheetset_to_pdf
                 Console.WriteLine("encountered (and dropped) a COMException while attempting to " +
                     "determine whether the acad application object is quiescent: " + e.ToString()
                 );
+                // System.Runtime.InteropServices.COMException: 'Call was rejected by callee. (Exception from HRESULT: 0x80010001 (RPC_E_CALL_REJECTED))'
                 return false;
             }
         }
@@ -118,7 +119,11 @@ namespace acad_sheetset_to_pdf
 
             IAcadApplication acad;
             acad = new AcadApplication();
-            //acad.Visible = false;
+            acad.Visible = false;
+            // to do: figure out how to instantiate acad in such a way that no flashing windows appear.  Even when we set acad.Visibile = false,
+            // the layer manager window and other accessory AutoCAD windows sometimes appear.
+            //I want to run AutoCAD fully as a background process.
+            // would it make sense to use the special command-line version of AutoCAD for this instead of the COM object?  (acconsole.exe, I think)
             String acadProgramDirectory = System.IO.Path.GetDirectoryName(acad.FullName);
             Console.WriteLine("acad.FullName: " + acad.FullName);
             Console.WriteLine("acadProgramDirectory: " + acadProgramDirectory);

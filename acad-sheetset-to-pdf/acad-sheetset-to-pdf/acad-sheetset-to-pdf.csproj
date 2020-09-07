@@ -73,12 +73,12 @@
   <ItemGroup>
     <Reference Include="Autodesk.AutoCAD.Interop, Version=24.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\ObjectARX_for_AutoCAD_2021_Win_64bit\inc-x64\Autodesk.AutoCAD.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Autodesk.AutoCAD.Interop.Common, Version=24.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\ObjectARX_for_AutoCAD_2021_Win_64bit\inc-x64\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
     </Reference>
     <Reference Include="CommandLine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
