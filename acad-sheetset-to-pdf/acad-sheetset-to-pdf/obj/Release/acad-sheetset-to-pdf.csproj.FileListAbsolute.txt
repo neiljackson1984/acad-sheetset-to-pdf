@@ -1,0 +1,15 @@
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\acad-sheetset-to-pdf.exe.config
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\acad-sheetset-to-pdf.exe
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\acad-sheetset-to-pdf.pdb
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\Interop.ACSMCOMPONENTS24Lib.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Release\Interop.AXDBLib.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csprojAssemblyReference.cache
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\Interop.ACSMCOMPONENTS24Lib.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\Interop.AXDBLib.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.ResolveComReference.cache
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.g.resources
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad_sheetset_to_pdf.Properties.Resources.resources
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.GenerateResource.cache
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.csproj.CoreCompileInputs.cache
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.exe
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Release\acad-sheetset-to-pdf.pdb

@@ -93,8 +93,15 @@ namespace acad_sheetset_to_pdf
             IAcSmDatabase sheetdb;
             IAcSmSheetSet sheetSet;
 
-            var dllDirectory = @"C:\Program Files\Autodesk\AutoCAD 2021";
-            //Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + dllDirectory);
+            Console.WriteLine("Getting the AutoCAD aplication object...");
+
+            IAcadApplication acad;
+            acad = new AcadApplication();
+            String acadProgramDirectory = System.IO.Path.GetDirectoryName(acad.FullName);
+            Console.WriteLine("acad.FullName: " + acad.FullName);
+            Console.WriteLine("acadProgramDirectory: " + acadProgramDirectory);
+
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + ";" + acadProgramDirectory);
             //SetDllDirectory(dllDirectory);
 
             //Console.WriteLine("Directory.GetCurrentDirectory(): " + Directory.GetCurrentDirectory());
@@ -114,19 +121,23 @@ namespace acad_sheetset_to_pdf
             //Even if we run executable with the initial working directory being the autocad install directory (which is the primary residence of those dlls), we still get errors about not being able to find entry points.
 
             int libIdOfAcpal = 0;
-            int libIdOfAcui24res = 0;
-            int libIdOfAdui24res = 0;
-            int libIdOfAnavRes = 0;
+            //int libIdOfAcui24res = 0;
+            //int libIdOfAdui24res = 0;
+            //int libIdOfAnavRes = 0;
 
-            libIdOfAcpal = LoadLibrary(dllDirectory + @"\" + "acpal.dll");
+            libIdOfAcpal = LoadLibrary(acadProgramDirectory + @"\" + "acpal.dll");
+            //libIdOfAcpal = LoadLibrary("acpal.dll"); 
+            // for reasons that I do not fully understand, manually loading acpal.dll with the above call to LoadLibrary will prevent the below "new AcSmSheetSetMgr()" statement from throwing an error abot not being able
+            // to find dlls.
+
             //libIdOfAcui24res = LoadLibrary(dllDirectory + @"\" + "acui24res.dll");
             //libIdOfAdui24res = LoadLibrary(dllDirectory + @"\" + "adui24res.dll");
             //libIdOfAnavRes = LoadLibrary(dllDirectory + @"\" + "anavRes.dll");
 
             Console.WriteLine("libIdOfAcpal: " + libIdOfAcpal);
-            Console.WriteLine("libIdOfAcui24res: " + libIdOfAcui24res);
-            Console.WriteLine("libIdOfAdui24res: " + libIdOfAdui24res);
-            Console.WriteLine("libIdOfAnavRes: " + libIdOfAnavRes);
+            //Console.WriteLine("libIdOfAcui24res: " + libIdOfAcui24res);
+            //Console.WriteLine("libIdOfAdui24res: " + libIdOfAdui24res);
+            //Console.WriteLine("libIdOfAnavRes: " + libIdOfAnavRes);
 
 
             sheetSetMgr = new AcSmSheetSetMgr();
@@ -137,8 +148,8 @@ namespace acad_sheetset_to_pdf
             String nameOfDwgFileContainingThePageSetup;
             String nameOfThePageSetup;
 
-            IAcadApplication acad;
-            acad = new AcadApplication();
+            //IAcadApplication acad;
+            //acad = new AcadApplication();
 
             if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
             sheetSet = sheetdb.GetSheetSet();
@@ -155,8 +166,8 @@ namespace acad_sheetset_to_pdf
             // this code is being run within the Autocad process.
             //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
             Console.WriteLine("checkpoint 1");
-            //acad.Visible = false;
-            acad.Visible = true;
+            acad.Visible = false;
+            //acad.Visible = true;
             Console.WriteLine("checkpoint 2");
             IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
             while (acad.GetAcadState().IsQuiescent == false)
@@ -285,9 +296,9 @@ namespace acad_sheetset_to_pdf
             acad.Quit();
 
             if (libIdOfAcpal > 0) { FreeLibrary(libIdOfAcpal); }
-            if (libIdOfAcui24res > 0) { FreeLibrary(libIdOfAcui24res); }
-            if (libIdOfAdui24res > 0) { FreeLibrary(libIdOfAdui24res); }
-            if (libIdOfAnavRes > 0) { FreeLibrary(libIdOfAnavRes); }
+            //if (libIdOfAcui24res > 0) { FreeLibrary(libIdOfAcui24res); }
+            //if (libIdOfAdui24res > 0) { FreeLibrary(libIdOfAdui24res); }
+            //if (libIdOfAnavRes > 0) { FreeLibrary(libIdOfAnavRes); }
 
 
 
