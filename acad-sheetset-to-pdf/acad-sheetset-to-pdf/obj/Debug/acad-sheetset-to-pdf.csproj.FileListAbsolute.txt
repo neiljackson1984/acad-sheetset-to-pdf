@@ -13,3 +13,7 @@ C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\Interop.AXDBLib.dll
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.exe
 C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\obj\Debug\acad-sheetset-to-pdf.pdb
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\acpal.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\acui24res.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\adui24res.dll
+C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\acad-sheetset-to-pdf\bin\Debug\anavRes.dll

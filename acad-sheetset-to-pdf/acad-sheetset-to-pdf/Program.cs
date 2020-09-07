@@ -104,7 +104,7 @@ namespace acad_sheetset_to_pdf
             // adui24res.dll
             // anavRes.dll
 
-            //OR run the executable with the initial working directory being the autocad install directory.
+            //Even if we run executable with the initial working directory being the autocad install directory (which is the primary residence of those dlls), we still get errors about not being able to find entry points.
 
             sheetSetMgr = new AcSmSheetSetMgr();
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);
@@ -132,7 +132,8 @@ namespace acad_sheetset_to_pdf
             // this code is being run within the Autocad process.
             //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
             Console.WriteLine("checkpoint 1");
-            acad.Visible = false;
+            //acad.Visible = false;
+            acad.Visible = true;
             Console.WriteLine("checkpoint 2");
             IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
             while (acad.GetAcadState().IsQuiescent == false)
@@ -236,9 +237,20 @@ namespace acad_sheetset_to_pdf
             }
             workingDocument.SetVariable("FILEDIA", 0);
             workingDocument.SendCommand("-PUBLISH" + "\n" + nameOfTheTemporaryDsdFile + "\n");
-            //make a copy of the log file so that we can inspect the log file even after the clean-up behavior built into AutoCAD's publish routine has deleted the original log file.
-            System.IO.File.Copy(nameOfTheTemporaryPlotLogFile, baseName + "2" + "-plot" + ".log", overwrite: true);
-            //Actually, the above attempt to copy does not seem to result in the expected output log file.  However, it does seem to result in having a csv version of the log file left behind in the temp folder.
+            
+
+            try
+            {
+                //make a copy of the log file so that we can inspect the log file even after the clean-up behavior built into AutoCAD's publish routine has deleted the original log file.
+                System.IO.File.Copy(nameOfTheTemporaryPlotLogFile, baseName + "2" + "-plot" + ".log", overwrite: true);
+                //Actually, the above attempt to copy does not seem to result in the expected output log file.  However, it does seem to result in having a csv version of the log file left behind in the temp folder.
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Attempted and failed to make a copy of the temporary plot log file. " + nameOfTheTemporaryPlotLogFile);
+                //throw;
+            }
+            
 
             workingDocument.Close(SaveChanges: false);
             while (acad.GetAcadState().IsQuiescent == false)
