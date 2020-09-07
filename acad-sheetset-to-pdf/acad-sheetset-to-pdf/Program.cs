@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 using Autodesk.AutoCAD.Interop;
 using Autodesk.AutoCAD.Interop.Common;
-using ACSMCOMPONENTS23Lib;
+using ACSMCOMPONENTS24Lib;
 using System.Runtime.InteropServices;
 using CommandLine;
 
@@ -80,6 +80,9 @@ namespace acad_sheetset_to_pdf
             IAcSmDatabase sheetdb;
             IAcSmSheetSet sheetSet;
 
+            //IAcadApplication acad;
+            //acad = new AcadApplication();
+
             sheetSetMgr = new AcSmSheetSetMgr();
             Console.WriteLine("attempting to open " + nameOfSheetsetFile);
             Environment.CurrentDirectory = "C:\\Program Files\\Autodesk\\AutoCAD 2019";
@@ -87,9 +90,10 @@ namespace acad_sheetset_to_pdf
             Console.WriteLine("checkpoint -1");
             String nameOfDwgFileContainingThePageSetup;
             String nameOfThePageSetup;
+
             IAcadApplication acad;
             acad = new AcadApplication();
-            
+
             if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
             sheetSet = sheetdb.GetSheetSet();
             if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }

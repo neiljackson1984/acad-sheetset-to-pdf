@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>acad_sheetset_to_pdf</RootNamespace>
     <AssemblyName>acad-sheetset-to-pdf</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -62,14 +62,24 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autodesk.AutoCAD.Interop">
-      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2020\Autodesk.AutoCAD.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Autodesk.AutoCAD.Interop, Version=24.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\ObjectARX_for_AutoCAD_2021_Win_64bit\inc-x64\Autodesk.AutoCAD.Interop.dll</HintPath>
     </Reference>
-    <Reference Include="Autodesk.AutoCAD.Interop.Common">
-      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2020\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="Autodesk.AutoCAD.Interop.Common, Version=24.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\ObjectARX_for_AutoCAD_2021_Win_64bit\inc-x64\Autodesk.AutoCAD.Interop.Common.dll</HintPath>
     </Reference>
     <Reference Include="CommandLine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.3.0\lib\net45\CommandLine.dll</HintPath>
@@ -130,17 +140,18 @@
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="ACSMCOMPONENTS23Lib">
-      <Guid>{6243505A-A1A6-4EAA-84BB-F9F8173C54BB}</Guid>
+    <COMReference Include="ACSMCOMPONENTS24Lib">
+      <Guid>{7CC328B4-EB05-4611-B602-D23EAEAD2B2E}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </COMReference>
     <COMReference Include="AXDBLib">
-      <Guid>{C5661B4E-34DA-4F36-8D82-AB2BFBF4B1F1}</Guid>
+      <Guid>{39FFAA00-8623-488F-8C53-DD3B0B7A464F}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
@@ -162,18 +173,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="acui23res.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="adui23res.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="anavRes.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="costura64\anavRes.dll" />
-    <None Include="costura64\adui23res.dll" />
-    <None Include="costura64\acui23res.dll" />
+    <Content Include="acui24res.dll" />
+    <Content Include="adui24res.dll" />
+    <Content Include="anavRes.dll" />
+    <Content Include="costura64\acui24res.dll" />
+    <Content Include="costura64\adui24res.dll" />
+    <Content Include="costura64\anavRes.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

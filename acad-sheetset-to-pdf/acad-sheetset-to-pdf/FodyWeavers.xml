@@ -1,8 +1,8 @@
 <Weavers>
   <Costura CreateTemporaryAssemblies='true' >
       <Unmanaged64Assemblies>
-        acui23res
-        adui23res
+        acui24res
+        adui24res
         anavRes
       </Unmanaged64Assemblies>
   </Costura>
