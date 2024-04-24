@@ -13,21 +13,13 @@
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartWorkingDirectory>
-    </StartWorkingDirectory>
-    <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
-  </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>C:\work\acad-sheetset-to-pdf\acad-sheetset-to-pdf\objectarx-for-autocad-2025-win-64bit\inc-x64\;C:\Program Files\Autodesk\AutoCAD 2025\</ReferencePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <StartArguments>--sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  --outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments>
+  <PropertyGroup>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+        <!-- <StartArguments>-sheetsetfile="C:/work/ec-18-032_patton_properties/ec-18-032_patton_properties.dst"  -outputpdffile="C:/work/ec-18-032_patton_properties/out.pdf"</StartArguments> -->
+        <StartArguments>--sheetsetfile="C:\work\2020-08-13_219004_shaffer\main_sheetset.dst"  --outputpdffile="C:\Users\Admin\AppData\Local\Temp\4eb45847-a3a9-4148-81d2-b68189d17a73.pdf"</StartArguments>
   </PropertyGroup>
 </Project>
