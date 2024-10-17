@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>acad_sheetset_to_pdf</RootNamespace>
     <AssemblyName>acad-sheetset-to-pdf</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -71,6 +71,49 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <!-- <Reference Include="AcSmComponents.Interop">
+      <HintPath>c:\Program Files\Autodesk\AutoCAD 2025\AcSmComponents.Interop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference> -->
+    <!-- <COMReference Include="ACSMCOMPONENTS25Lib">
+      <Guid>{1D699551-94BA-4D13-8C93-7AFBF62A713E}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AXDBLib">
+      <Guid>{0EA72311-DF28-4318-A51B-92D7FC7DF50B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference> -->
+
+
+    <Reference Include="AcDbMgd">
+      <Private>False</Private>
+      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\AcDbMgd.dll</HintPath>
+    </Reference>
+    <Reference Include="acmgd">
+      <Private>False</Private>
+      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\acmgd.dll</HintPath>
+    </Reference>
+    <Reference Include="accoremgd">
+      <Private>False</Private>
+      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\accoremgd.dll</HintPath>
+    </Reference>
+
+
+    <!-- <Reference Include="AcSmComponents.Interop, Version=25.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\AcSmComponents.Interop.dll</HintPath>
+    </Reference> -->
     <Reference Include="Autodesk.AutoCAD.Interop">
       <HintPath>..\objectarx-for-autocad-2025-win-64bit\inc-x64\Autodesk.AutoCAD.Interop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -137,7 +180,7 @@
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -148,7 +191,7 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
+  </ItemGroup> -->
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
