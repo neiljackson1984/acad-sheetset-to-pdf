@@ -418,3 +418,6 @@ $sheetSet.GetType()
 gci -file  -force (split-path -parent  (get-command acad).Path ) -filter "*.dll" |% {$_.Name}  | sort
 
 nuget search AcSmSheetSetMgr
+
+cd "C:\work\acad-sheetset-to-pdf"
+git status
