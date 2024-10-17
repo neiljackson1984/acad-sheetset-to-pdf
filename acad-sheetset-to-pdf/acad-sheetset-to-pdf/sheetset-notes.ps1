@@ -421,3 +421,5 @@ nuget search AcSmSheetSetMgr
 
 cd "C:\work\acad-sheetset-to-pdf"
 git status
+braid add --help
+braid add "https://github.com/triroakenshield/AcSmSheetSetMgr" "acad-sheetset-to-pdf/AcSmSheetSetMgr"
