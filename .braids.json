@@ -1,0 +1,10 @@
+{
+  "config_version": 1,
+  "mirrors": {
+    "acad-sheetset-to-pdf/AcSmSheetSetMgr": {
+      "url": "https://github.com/triroakenshield/AcSmSheetSetMgr",
+      "branch": "master",
+      "revision": "fcb337ef714ef56617005503c0a923d3da6564ba"
+    }
+  }
+}
