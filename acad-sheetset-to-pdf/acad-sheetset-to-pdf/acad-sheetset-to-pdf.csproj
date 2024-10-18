@@ -93,8 +93,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference> -->
-
-
     <Reference Include="AcDbMgd">
       <Private>False</Private>
       <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\AcDbMgd.dll</HintPath>
@@ -107,8 +105,6 @@
       <Private>False</Private>
       <HintPath>..\..\..\..\Program Files\Autodesk\AutoCAD 2025\accoremgd.dll</HintPath>
     </Reference>
-
-
     <!-- <Reference Include="AcSmComponents.Interop, Version=25.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -217,6 +213,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AcSmSheetSetMgr\AcSmSheetSetMgr.csproj">
+      <Project>{cea65ea8-56b4-4827-ae55-6904a07cce88}</Project>
+      <Name>AcSmSheetSetMgr</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.2.6\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.6\build\Fody.targets')" />

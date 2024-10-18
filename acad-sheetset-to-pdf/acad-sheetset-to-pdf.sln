@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "acad-sheetset-to-pdf", "acad-sheetset-to-pdf\acad-sheetset-to-pdf.csproj", "{6B8C8C20-EA94-4608-9523-1D258AF5070E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CEA65EA8-56B4-4827-AE55-6904A07CCE88} = {CEA65EA8-56B4-4827-AE55-6904A07CCE88}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcSmSheetSetMgr", "AcSmSheetSetMgr\AcSmSheetSetMgr.csproj", "{CEA65EA8-56B4-4827-AE55-6904A07CCE88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{6B8C8C20-EA94-4608-9523-1D258AF5070E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B8C8C20-EA94-4608-9523-1D258AF5070E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B8C8C20-EA94-4608-9523-1D258AF5070E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA65EA8-56B4-4827-AE55-6904A07CCE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA65EA8-56B4-4827-AE55-6904A07CCE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA65EA8-56B4-4827-AE55-6904A07CCE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA65EA8-56B4-4827-AE55-6904A07CCE88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,6 +41,7 @@ using ACSMCOMPONENTS25Lib;
 using System.Runtime.InteropServices;
 using CommandLine;
 using System.IO;
+using AcSmSheetSetMgr;
 
 namespace acad_sheetset_to_pdf
 {
@@ -111,7 +112,7 @@ namespace acad_sheetset_to_pdf
             }
 
             //*****parse the command-line arguments*****
-            String nameOfSheetsetFile = commandLineOptions.SheetSetFile;
+            String pathOfSheetsetFile = commandLineOptions.SheetSetFile;
             String nameOfPdfOutputFile = commandLineOptions.OutputPdfFile;
             String baseName = System.IO.Path.GetTempFileName();
             String nameOfTheTemporaryDsdFile = baseName + ".dsd";
@@ -119,10 +120,6 @@ namespace acad_sheetset_to_pdf
 
             //TO DO: compose a help message.
 
-            //*****read the sheetset file and construct a dsd file accordingly*****
-            IAcSmSheetSetMgr sheetSetMgr;
-            IAcSmDatabase sheetdb;
-            IAcSmSheetSet sheetSet;
 
             Console.WriteLine("Getting the AutoCAD aplication object...");
 
@@ -199,39 +196,52 @@ namespace acad_sheetset_to_pdf
                 Console.WriteLine($"libId of '{pathOfDllToLoad}': {libId}");
             }
 
-            sheetSetMgr = new AcSmSheetSetMgr();
-            Console.WriteLine("attempting to open " + nameOfSheetsetFile);
-            //Environment.CurrentDirectory = @"C:\Program Files\Autodesk\AutoCAD 2019";
-            sheetdb = sheetSetMgr.OpenDatabase(nameOfSheetsetFile, bFailIfAlreadyOpen: true);
-            //sheetdb = sheetSetMgr.OpenDatabase("aaa", bFailIfAlreadyOpen: true);
 
-
-            Console.WriteLine("checkpoint -1");
-            String nameOfDwgFileContainingThePageSetup;
+            String pathOfDwgFileContainingThePageSetup;
             String nameOfThePageSetup;
 
-            //IAcadApplication acad;
-            //acad = new AcadApplication();
 
-            if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
-            sheetSet = sheetdb.GetSheetSet();
-            if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }
-            //read the page setup override information from the sheet set.
-            nameOfDwgFileContainingThePageSetup = sheetSet.GetAltPageSetups().ResolveFileName();
+            Console.WriteLine("attempting to open " + pathOfSheetsetFile);
 
-            Console.WriteLine("checkpoint 0");
-            IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
-            myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
-            //nameOfThePageSetup = myNamedAcDbObjectReference.GetName();
-            // the above is not working because sheetSet.GetDefAltPageSetup() returns null.
-            // I suspect that sheetSet.GetDefAltPageSetup() only returns something when
-            // this code is being run within the Autocad process.
-            //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
-            Console.WriteLine("checkpoint 1");
+            ////    //*****read the sheetset file and construct a dsd file accordingly*****
+            ////    ACSMCOMPONENTS25Lib.IAcSmSheetSetMgr sheetSetMgr;
+            ////    ACSMCOMPONENTS25Lib.IAcSmDatabase sheetdb;
+            ////    ACSMCOMPONENTS25Lib.IAcSmSheetSet sheetSet;
+            ////    
+            ////    sheetSetMgr = new ACSMCOMPONENTS25Lib.AcSmSheetSetMgr();
+            ////    sheetdb = sheetSetMgr.OpenDatabase(pathOfSheetsetFile, bFailIfAlreadyOpen: true);
+            ////    
+            ////    if (sheetdb.GetLockStatus() == 0) { sheetdb.LockDb(sheetdb); } //it may not be necessary to lock the sheetset, because I am only reading from it, not writing to it.
+            ////    sheetSet = sheetdb.GetSheetSet();
+            ////    if (sheetdb.GetLockStatus() != 0) { sheetdb.UnlockDb(sheetdb); }
+            ////    //read the page setup override information from the sheet set.
+            ////    pathOfDwgFileContainingThePageSetup = sheetSet.GetAltPageSetups().ResolveFileName();
+            ////    
+            ////    //IAcSmNamedAcDbObjectReference myNamedAcDbObjectReference;
+            ////    //myNamedAcDbObjectReference = sheetSet.GetDefAltPageSetup();
+            ////    //nameOfThePageSetup = myNamedAcDbObjectReference.GetName();
+            ////    // the above is not working because sheetSet.GetDefAltPageSetup() returns null.
+            ////    // I suspect that sheetSet.GetDefAltPageSetup() only returns something when
+            ////    // this code is being run within the Autocad process.
+            ////    //as a work-around, we might have to open the dwg file containing the page setup, and read out the page setup names from it.
             
+            AcSmSheetSetMgr.AcSmDatabase  acSmDatabase;
+            AcSmSheetSetMgr.AcSmSheetSet  acSmSheetSet;
+
+            acSmDatabase = AcSmSheetSetMgr.AcSmDatabase.LoadDst(pathOfSheetsetFile);
+            acSmSheetSet = acSmDatabase.FindChild("AcSmSheetSet") as AcSmSheetSetMgr.AcSmSheetSet ;
+            pathOfDwgFileContainingThePageSetup  = Path.GetFullPath(
+                Path.Combine(
+                    pathOfSheetsetFile,
+                    "..",
+                    acSmSheetSet.FindChild("AcSmFileReference", "AltPageSetups").FindChild("AcSmProp","Relative_FileName").Value
+                )
+            );
+
+
             acad.Visible = false;
             Console.WriteLine("checkpoint 2");
-            IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: nameOfDwgFileContainingThePageSetup, ReadOnly: true);
+            IAcadDocument documentContainingThePageSetup = acad.Documents.Open(Name: pathOfDwgFileContainingThePageSetup, ReadOnly: true);
 
             while (!AcadIsAvailableAndQuiescent(acad)  )
             {
@@ -249,7 +259,7 @@ namespace acad_sheetset_to_pdf
             }
             nameOfThePageSetup = documentContainingThePageSetup.PlotConfigurations.Item(0).Name;
             documentContainingThePageSetup.Close(SaveChanges: false);
-            Console.WriteLine("nameOfDwgFileContainingThePageSetup: " + nameOfDwgFileContainingThePageSetup);
+            Console.WriteLine("pathOfDwgFileContainingThePageSetup: " + pathOfDwgFileContainingThePageSetup);
             Console.WriteLine("nameOfThePageSetup: " + nameOfThePageSetup);
 
             string dsdContent = "";
@@ -275,7 +285,7 @@ namespace acad_sheetset_to_pdf
                     "[DWF6Sheet:" + thisSheet.GetName() + "]" + "\r\n" +
                     "DWG=" + thisSheet.GetLayout().ResolveFileName() + "\r\n" +
                     "Layout=" + thisSheet.GetLayout().GetName() + "\r\n" +
-                    "Setup=" + nameOfThePageSetup + "|" + nameOfDwgFileContainingThePageSetup + "\r\n" +
+                    "Setup=" + nameOfThePageSetup + "|" + pathOfDwgFileContainingThePageSetup + "\r\n" +
                     "OriginalSheetPath=" + thisSheet.GetLayout().ResolveFileName() + "\r\n" +
                     "Has Plot Port=" + "0" + "\r\n" + 
                     "Has3DDWF=" + "0" + "\r\n";
@@ -316,7 +326,7 @@ namespace acad_sheetset_to_pdf
                 "PwdProtectPublishedDWF=FALSE" + "\r\n" +
                 "PromptForPwd=FALSE" + "\r\n" +
                 "RepublishingMarkups=FALSE" + "\r\n" +
-                "DSTPath=" + nameOfSheetsetFile + "\r\n" +
+                "DSTPath=" + pathOfSheetsetFile + "\r\n" +
                 "PublishSheetSetMetadata=FALSE" + "\r\n" +
                 "PublishSheetMetadata=FALSE" + "\r\n" +
                 "3DDWFOptions=0 0" + "\r\n" + "\r\n" +

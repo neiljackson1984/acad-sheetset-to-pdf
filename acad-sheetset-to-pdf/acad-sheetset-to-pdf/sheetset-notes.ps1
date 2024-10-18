@@ -379,7 +379,7 @@ $x = (join-path $env:temp "$(new-guid).xml");$acSmDatabase.SaveXML($x);code $x
 $acSmSheetSet = $acSmDatabase.FindChild("AcSmSheetSet")
 $acSmFileReferenceOfDwgFileContainingThePageSetup = $acSmSheetSet.FindChild("AcSmFileReference", "AltPageSetups")
 $relativePathOfDwgFileContainingThePageSetup = $acSmFileReferenceOfDwgFileContainingThePageSetup.FindChild("AcSmProp","Relative_FileName").Value
-$pathOfDwgFileContainingThePageSetup = [IO.Path]::GetFullPath([IO.Path]::Join($pathOfDstFile, "..", $relativePathOfDwgFileContainingThePageSetup))
+$pathOfDwgFileContainingThePageSetup = [IO.Path]::GetFullPath([IO.Path]::Combine($pathOfDstFile, "..", $relativePathOfDwgFileContainingThePageSetup))
 $sheets = $acSmSheetSet.FindAllChild("AcSmSheet")
 #%%
 foreach($sheet in $sheets){
